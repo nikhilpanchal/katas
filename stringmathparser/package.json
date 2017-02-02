@@ -1,0 +1,9 @@
+{
+  "name": "string-math-parser",
+  "version": "0.0.1",
+  "main": "src/parser.js",
+  "files": ["src/"],
+  "devDependencies": {
+    "jasmine-node": "latest"
+  }
+}
