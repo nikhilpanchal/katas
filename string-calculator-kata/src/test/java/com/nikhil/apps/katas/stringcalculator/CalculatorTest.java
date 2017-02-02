@@ -17,7 +17,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void foranemptystring_itShouldGiveBackZero() {
+    public void forAnEmptyString_itShouldGiveBackZero() {
         assertEquals(0, calculator.add(""));
     }
 
