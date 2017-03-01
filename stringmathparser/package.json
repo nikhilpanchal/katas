@@ -2,8 +2,13 @@
   "name": "string-math-parser",
   "version": "0.0.1",
   "main": "src/parser.js",
-  "files": ["src/"],
+  "scripts": {
+    "test": "jasmine JASMINE_CONFIG_PATH=./spec/configs/jasmine.json"
+  },
+  "files": [
+    "src/"
+  ],
   "devDependencies": {
-    "jasmine-node": "latest"
+    "jasmine": "^2.5.3"
   }
 }
