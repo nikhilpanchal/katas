@@ -4,12 +4,14 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.nikhil.streams.Collections.*;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 public class CollectionsTests {
 
@@ -59,6 +61,44 @@ public class CollectionsTests {
 
         List<String> upperCase = toUpperCase(lowerCase);
 
-        assertThat(upperCase, Matchers.is(asList("THIS", "IS", "A", "TEST", "STRING")));
+        assertThat(upperCase, is(asList("THIS", "IS", "A", "TEST", "STRING")));
+    }
+
+    @Test
+    public void givenACollection_ShouldPartitionBasedOnAge() {
+        Person dad = new Person("Nikhil",39);
+        Person mom = new Person("Erica", 38);
+        Person son = new Person("Aiden", 6);
+
+        List<Person> people = asList(dad, mom, son);
+
+        Map<Boolean, List<Person>> partition = Collections.partitionList(people);
+
+        assertThat(partition.get(true), containsInAnyOrder(dad, mom));
+        assertThat(partition.get(false), is(asList(son)));
+    }
+
+    @Test
+    public void givenACollectionOfPeople_ShouldGroupThemByNationality() {
+        Person dad = new Person("Nikhil",39, "Indian");
+        Person mom = new Person("Erica", 38, "Indian");
+        Person son = new Person("Aiden", 6, "American");
+
+        Map<String, List<Person>> groupedPeople = groupByNationality(asList(dad, mom, son));
+
+        assertThat(groupedPeople.get("Indian"), containsInAnyOrder(dad, mom));
+        assertThat(groupedPeople.get("American"), equalTo(asList(son)));
+    }
+
+    @Test
+    public void givenACollectionOfPeople_ShouldReturnAStringOfTheirNames() {
+        Person dad = new Person("Nikhil",39, "Indian");
+        Person mom = new Person("Erica", 38, "Indian");
+        Person son = new Person("Aiden", 6, "American");
+
+        String namesAsString = namesAsString(asList(dad, mom, son));
+
+        assertThat(namesAsString, equalTo("Names: Nikhil, Erica, Aiden."));
+
     }
 }
