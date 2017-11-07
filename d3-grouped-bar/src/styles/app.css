@@ -1,0 +1,11 @@
+@import "grouped-bar.css";
+
+.content {
+    margin: auto;
+    max-width: 800px;
+    border: 1px solid black;
+}
+
+* {
+    box-sizing: border-box;
+}
