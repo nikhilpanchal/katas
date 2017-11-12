@@ -32,8 +32,12 @@ class GroupedBar {
         this.scaleBarColor = d3.scaleOrdinal().range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
     }
 
-    render() {
-        d3.csv('/resources/age_group_data.csv', (row, index, columns) => {
+    // Take in the url from which to get data from.
+    // Improves testability.
+    render(dataUrl) {
+        // Return the request object that we get from the call to d3.csv to improve testability.
+        // This allows the caller to register a callback on completion
+        return d3.csv(dataUrl, (row, index, columns) => {
             for(let i=1; i<columns.length; i++) {
                 row[columns[i]] = +row[columns[i]];
             }
@@ -61,6 +65,7 @@ class GroupedBar {
                 .data(data)
                 .enter()
                 .append('g')
+                .attr('class', 'bargroup')
                 .attr('transform', (row) => `translate(${this.scaleX(row[nameColumn])}, 0)`)
                 .selectAll('rect')
                 .data((row) => {
@@ -82,16 +87,19 @@ class GroupedBar {
             // Axes
             this.g.append('g')
                 .call(d3.axisBottom(this.scaleX))
+                .attr('class', 'xaxis')
                 .attr('transform', `translate(0, ${this.chartHeight})`);
 
             this.g.append('g')
-                .call(d3.axisLeft(this.scaleY).ticks(null, 's'));
+                .call(d3.axisLeft(this.scaleY).ticks(null, 's'))
+                .attr('class', 'yaxis');
 
             // Legend
             let legend = this.g.append('g')
                 .attr('font-family', 'sans-serif')
                 .attr('font-size', 10)
                 .attr('transform', `translate(${this.chartWidth - this.margin.right}, 0)`)
+                .attr('class', 'legend')
                 .selectAll('g')
                 .data(dataColumns)
                 .enter()
@@ -112,7 +120,7 @@ class GroupedBar {
                 .attr('height', 19)
                 .attr('width', 20)
                 .attr('fill', this.scaleBarColor);
-        })
+        });
     }
 }
 
